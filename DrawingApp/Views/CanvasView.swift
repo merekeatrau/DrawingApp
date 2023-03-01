@@ -8,29 +8,12 @@
 import UIKit
 
 class CanvasView: UIView {
-    private var shape: Shape?
-    private var path = UIBezierPath()
-    private var shapes = [(path: UIBezierPath, color: UIColor, fill: Bool)]()
+    private var shape: ShapeType?
     private var currentShape = [UIBezierPath]()
     private var startingPoint: CGPoint?
     private var selectedColor = UIColor.black
     private var isFilled = false
-    
-    override func draw(_ rect: CGRect) {
-        for shape in shapes {
-            let shapeLayer = CAShapeLayer()
-            shapeLayer.path = shape.path.cgPath
-            shapeLayer.strokeColor = shape.color.cgColor
-            if shape.fill {
-                shapeLayer.fillColor = shape.color.cgColor
-            }
-            else {
-                shapeLayer.fillColor = UIColor.clear.cgColor
-            }
-            shapeLayer.lineWidth = 3
-            layer.addSublayer(shapeLayer)
-        }
-    }
+    private var caretaker = CanvasViewCaretaker()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let point = touches.first?.location(in: self)
@@ -38,8 +21,6 @@ class CanvasView: UIView {
         startingPoint = point
         currentShape.append(UIBezierPath())
         currentShape.last?.move(to: point)
-        shapes.append((path: currentShape.last!, color: selectedColor, fill: isFilled))
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -47,8 +28,9 @@ class CanvasView: UIView {
         guard let point = point else { return }
         switch shape {
         case .pencil:
+            let path = UIBezierPath()
             currentShape.last?.addLine(to: point)
-            setNeedsDisplay()
+            draw()
         default:
             break
         }
@@ -59,17 +41,27 @@ class CanvasView: UIView {
         guard let endPoint = endPoint, let startPoint = startingPoint else { return }
         switch shape {
         case .circle:
-            let center = CGPoint(x: (startPoint.x + endPoint.x) / 2, y: (startPoint.y + endPoint.y) / 2)
+            let center = CGPoint(x: (startPoint.x + endPoint.x) / 2,
+                                 y: (startPoint.y + endPoint.y) / 2)
             let radius = max(abs(endPoint.x - startPoint.x), abs(endPoint.y - startPoint.y)) / 2
-            currentShape.last?.append(UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: 2 * .pi, clockwise: true))
+            currentShape.last?.append(UIBezierPath(arcCenter: center,
+                                                   radius: radius,
+                                                   startAngle: 0,
+                                                   endAngle: 2 * .pi,
+                                                   clockwise: true))
         case .rectangle:
-            let origin = CGPoint(x: min(startPoint.x, endPoint.x), y: min(startPoint.y, endPoint.y))
-            let size = CGSize(width: abs(endPoint.x - startPoint.x), height: abs(endPoint.y - startPoint.y))
+            let origin = CGPoint(x: min(startPoint.x, endPoint.x),
+                                 y: min(startPoint.y, endPoint.y))
+            let size = CGSize(width: abs(endPoint.x - startPoint.x),
+                              height: abs(endPoint.y - startPoint.y))
             currentShape.last?.append(UIBezierPath(rect: CGRect(origin: origin, size: size)))
         case .triangle:
-            currentShape.last?.move(to: CGPoint(x: startPoint.x, y: endPoint.y))
-            currentShape.last?.addLine(to: CGPoint(x: endPoint.x, y: endPoint.y))
-            currentShape.last?.addLine(to: CGPoint(x: (startPoint.x + endPoint.x) / 2, y: startPoint.y))
+            currentShape.last?.move(to: CGPoint(x: startPoint.x,
+                                                y: endPoint.y))
+            currentShape.last?.addLine(to: CGPoint(x: endPoint.x,
+                                                   y: endPoint.y))
+            currentShape.last?.addLine(to: CGPoint(x: (startPoint.x + endPoint.x) / 2,
+                                                   y: startPoint.y))
             currentShape.last?.close()
         case .line:
             currentShape.last?.move(to: startPoint)
@@ -77,43 +69,66 @@ class CanvasView: UIView {
         default:
             break
         }
+        draw()
+        saveState()
         setNeedsDisplay()
+        currentShape = [UIBezierPath]()
     }
 }
 
 extension CanvasView {
+    private func draw(){
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = currentShape.last?.cgPath
+        shapeLayer.lineWidth = 2
+        if !isFilled {
+            shapeLayer.fillColor = UIColor.clear.cgColor
+            shapeLayer.strokeColor = selectedColor.cgColor
+        } else {
+            shapeLayer.fillColor = selectedColor.cgColor
+            shapeLayer.strokeColor = selectedColor.cgColor
+        }
+        self.layer.addSublayer(shapeLayer)
+    }
+
+    private func saveState() {
+        if let shape = shape {
+            let state = CanvasViewState(path: currentShape, fill: isFilled, color: selectedColor, shape: shape)
+            caretaker.addStates(state)
+        }
+    }
+
     func reset() {
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        shapes.removeAll()
-        currentShape.removeAll()
+        caretaker.removeAllStates()
+        currentShape = []
         setNeedsDisplay()
+        print(caretaker.getStates().count)
     }
-    
-    func changeColor(to color: UIColor) {
-        selectedColor = color
-    }
-    
+
     func undo() {
-        if !shapes.isEmpty {
-            while let lastSublayer = layer.sublayers?.last {
+        if !caretaker.getStates().isEmpty {
+            print(caretaker.getStates().count)
+            if let lastSublayer = layer.sublayers?.last {
                 lastSublayer.removeFromSuperlayer()
             }
-            shapes.removeLast()
+            caretaker.removeLastState()
             currentShape = []
             setNeedsDisplay()
         }
+        print(caretaker.getStates().count)
+
+    }
+
+    func changeColor(to color: UIColor) {
+        selectedColor = color
     }
     
     func fill(_ isOn: Bool) {
         isFilled = isOn
     }
     
-    func selectShape(_ selectedShape: Shape) {
+    func selectShape(_ selectedShape: ShapeType) {
         shape = selectedShape
     }
 }
-
-
-
-
-

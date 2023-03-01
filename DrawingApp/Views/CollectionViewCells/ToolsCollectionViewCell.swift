@@ -17,7 +17,7 @@ class ToolsCollectionViewCell: UICollectionViewCell {
     private let pencilButton = UIButton(type: .system)
     private let lineButton = UIButton(type: .system)
 
-    var didSelectShape: ((Shape) -> Void)?
+    var didSelectShape: ((ShapeType) -> Void)?
 
     override func layoutSubviews() {
         super.layoutSubviews()

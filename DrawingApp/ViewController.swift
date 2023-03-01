@@ -73,39 +73,36 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
+        switch indexPath.row {
+        case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ToolsCollectionViewCell.identifier, for: indexPath) as! ToolsCollectionViewCell
             cell.backgroundColor = .clear
             cell.didSelectShape = { shape in
                 self.canvasView.selectShape(shape)
             }
             return cell
-        }
-        
-        if indexPath.row == 1 {
+        case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FillCollectionViewCell.identifier, for: indexPath) as! FillCollectionViewCell
             cell.backgroundColor = .clear
             cell.fillButtonTapped = { isOn in
                 self.canvasView.fill(isOn)
             }
             return cell
-            
-        }
-        if indexPath.row == 2 {
+        case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.identifier, for: indexPath) as! ColorCollectionViewCell
             cell.backgroundColor = .clear
             cell.colorButtonTapped = { color in
                 self.canvasView.changeColor(to: color)
             }
             return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReturnCollectionViewCell.identifier, for: indexPath) as! ReturnCollectionViewCell
+            cell.didReturnTapped = {
+                self.canvasView.undo()
+            }
+            cell.backgroundColor = .clear
+            return cell
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReturnCollectionViewCell.identifier, for: indexPath) as! ReturnCollectionViewCell
-        cell.didReturnTapped = {
-            self.canvasView.undo()
-        }
-        cell.backgroundColor = .clear
-        return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

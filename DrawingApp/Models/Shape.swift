@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Shape {
+enum ShapeType {
     case circle
     case rectangle
     case triangle

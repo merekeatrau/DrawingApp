@@ -41,7 +41,6 @@ class FillCollectionViewCell: UICollectionViewCell {
     
     @objc func toggleValueChanged(_ sender: UISwitch) {
         fillButtonTapped?(sender.isOn)
-        print(sender.isOn)
     }
     
     private func setupViews() {

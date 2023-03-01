@@ -14,9 +14,11 @@
 		061693D02993CF7200974DA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 061693CF2993CF7200974DA9 /* Assets.xcassets */; };
 		061693D32993CF7200974DA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 061693D12993CF7200974DA9 /* LaunchScreen.storyboard */; };
 		061693DB2993D20C00974DA9 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061693DA2993D20C00974DA9 /* CanvasView.swift */; };
+		065A46C329AF139600ABE571 /* CanvasViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A46C229AF139600ABE571 /* CanvasViewState.swift */; };
 		06A1B61129961CBF00FA399E /* ToolsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A1B61029961CBF00FA399E /* ToolsCollectionViewCell.swift */; };
 		06A1B6132996585C00FA399E /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A1B6122996585C00FA399E /* ColorCollectionViewCell.swift */; };
 		06A1B616299669A000FA399E /* FillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A1B615299669A000FA399E /* FillCollectionViewCell.swift */; };
+		06B2520C29AF6859005BF2B3 /* CanvasViewCaretaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B2520B29AF6859005BF2B3 /* CanvasViewCaretaker.swift */; };
 		06C0A3792997B68800A7EA59 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C0A3782997B68800A7EA59 /* Shape.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,9 +32,11 @@
 		061693D22993CF7200974DA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		061693D42993CF7200974DA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		061693DA2993D20C00974DA9 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		065A46C229AF139600ABE571 /* CanvasViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewState.swift; sourceTree = "<group>"; };
 		06A1B61029961CBF00FA399E /* ToolsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsCollectionViewCell.swift; sourceTree = "<group>"; };
 		06A1B6122996585C00FA399E /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		06A1B615299669A000FA399E /* FillCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillCollectionViewCell.swift; sourceTree = "<group>"; };
+		06B2520B29AF6859005BF2B3 /* CanvasViewCaretaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewCaretaker.swift; sourceTree = "<group>"; };
 		06C0A3782997B68800A7EA59 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,52 +70,54 @@
 		061693C52993CF7000974DA9 /* DrawingApp */ = {
 			isa = PBXGroup;
 			children = (
-				061693D42993CF7200974DA9 /* Info.plist */,
-				066230612994C68700893F29 /* Supporting Files */,
-				066230602994C67D00893F29 /* Delegates */,
+				066230602994C67D00893F29 /* Application */,
+				066230612994C68700893F29 /* SupportingFiles */,
 				061693CA2993CF7000974DA9 /* ViewController.swift */,
 				06A1B6142996586400FA399E /* Views */,
-				06C0A37A2997B6B000A7EA59 /* Modals */,
+				06C0A37A2997B6B000A7EA59 /* Models */,
 			);
 			path = DrawingApp;
 			sourceTree = "<group>";
 		};
-		066230602994C67D00893F29 /* Delegates */ = {
+		066230602994C67D00893F29 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				061693C62993CF7000974DA9 /* AppDelegate.swift */,
 				061693C82993CF7000974DA9 /* SceneDelegate.swift */,
 			);
-			path = Delegates;
+			path = Application;
 			sourceTree = "<group>";
 		};
-		066230612994C68700893F29 /* Supporting Files */ = {
+		066230612994C68700893F29 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				061693D42993CF7200974DA9 /* Info.plist */,
 				061693CF2993CF7200974DA9 /* Assets.xcassets */,
 				061693D12993CF7200974DA9 /* LaunchScreen.storyboard */,
 			);
-			path = "Supporting Files";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		06A1B6142996586400FA399E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				061693DA2993D20C00974DA9 /* CanvasView.swift */,
-				06C0A37B2997B6C800A7EA59 /* TableViewCells */,
+				06C0A37B2997B6C800A7EA59 /* CollectionViewCells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		06C0A37A2997B6B000A7EA59 /* Modals */ = {
+		06C0A37A2997B6B000A7EA59 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				06C0A3782997B68800A7EA59 /* Shape.swift */,
+				065A46C229AF139600ABE571 /* CanvasViewState.swift */,
+				06B2520B29AF6859005BF2B3 /* CanvasViewCaretaker.swift */,
 			);
-			path = Modals;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		06C0A37B2997B6C800A7EA59 /* TableViewCells */ = {
+		06C0A37B2997B6C800A7EA59 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
 				06A1B61029961CBF00FA399E /* ToolsCollectionViewCell.swift */,
@@ -119,7 +125,7 @@
 				06A1B615299669A000FA399E /* FillCollectionViewCell.swift */,
 				06005BB22996AB6C00FAE9A3 /* ReturnCollectionViewCell.swift */,
 			);
-			path = TableViewCells;
+			path = CollectionViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +200,8 @@
 			files = (
 				06005BB32996AB6C00FAE9A3 /* ReturnCollectionViewCell.swift in Sources */,
 				06A1B616299669A000FA399E /* FillCollectionViewCell.swift in Sources */,
+				06B2520C29AF6859005BF2B3 /* CanvasViewCaretaker.swift in Sources */,
+				065A46C329AF139600ABE571 /* CanvasViewState.swift in Sources */,
 				06A1B6132996585C00FA399E /* ColorCollectionViewCell.swift in Sources */,
 				061693CB2993CF7000974DA9 /* ViewController.swift in Sources */,
 				06C0A3792997B68800A7EA59 /* Shape.swift in Sources */,
@@ -341,7 +349,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PD2C9D7H2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DrawingApp/Info.plist;
+				INFOPLIST_FILE = DrawingApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -368,7 +376,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PD2C9D7H2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DrawingApp/Info.plist;
+				INFOPLIST_FILE = DrawingApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
